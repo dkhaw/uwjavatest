@@ -9,6 +9,7 @@ public class Person {
   private double salary;
   private String ssn;
   private boolean propertyChangeFired = false;
+  private static int count;
   
   public Person() {
     this("", 0, 0.0d);
@@ -18,18 +19,34 @@ public class Person {
     name = n;
     age = a;
     salary = s;
+    count++;
   }
 
   public int getAge() {
     return age;
   }
+  public void setAge(int value) {
+    if (value < 0) {
+      throws new IllegalArgumentException('age must be greater than 0');
+    }
+    age = value
+  }
   
   public String getName() {
     return name;
   }
+  public void setName(String value) {
+    if (value == null) {
+      throws new IllegalArgumentException('name cannot be null');
+    }    
+    name = value;
+  }
   
   public double getSalary() {
     return salary;
+  }
+  public void setSalary(double value) {
+    salary = value;
   }
   
   public String getSSN() {
@@ -59,11 +76,19 @@ public class Person {
   }
   
   public boolean equals(Person other) {
-    return (this.name.equals(p.name) && this.age == p.age);
+    return (this.name.equals(other.name) && this.age == other.age);
   }
 
   public String tostring() {
     return "{{FIXME}}";
+  }
+
+  public int count() {
+    return count;
+  }
+
+  public Comparator AgeComparator() {
+    
   }
 
   // PropertyChangeListener support; you shouldn't need to change any of
