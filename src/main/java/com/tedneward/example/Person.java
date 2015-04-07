@@ -3,13 +3,13 @@ package com.tedneward.example;
 import java.beans.*;
 import java.util.*;
 
-public class Person {
+public class Person implements Comparable<Person> {
   private int age;
   private String name;
   private double salary;
   private String ssn;
   private boolean propertyChangeFired = false;
-  private static int count;
+  private static int COUNT = 0;
   
   public Person() {
     this("", 0, 0.0d);
@@ -19,7 +19,8 @@ public class Person {
     name = n;
     age = a;
     salary = s;
-    count++;
+    ssn = "";
+    COUNT++;
   }
 
   public int getAge() {
@@ -27,9 +28,9 @@ public class Person {
   }
   public void setAge(int value) {
     if (value < 0) {
-      throws new IllegalArgumentException('age must be greater than 0');
+      throw new IllegalArgumentException("age must be greater than 0");
     }
-    age = value
+    age = value;
   }
   
   public String getName() {
@@ -37,7 +38,7 @@ public class Person {
   }
   public void setName(String value) {
     if (value == null) {
-      throws new IllegalArgumentException('name cannot be null');
+      throw new IllegalArgumentException("name cannot be null");
     }    
     name = value;
   }
@@ -75,20 +76,39 @@ public class Person {
     return age + 10;
   }
   
-  public boolean equals(Person other) {
-    return (this.name.equals(other.name) && this.age == other.age);
+  public boolean equals(Object other) {
+    if(other instanceof Person) {
+      Person p = (Person) other;
+      return (this.name.equals(p.name) && this.age == p.age);
+    }
+    return false;
   }
 
-  public String tostring() {
-    return "{{FIXME}}";
+  public String toString() {
+    return "[Person name:" + name + " age:" + age + " salary:" + salary + "]";
   }
 
   public int count() {
-    return count;
+    return COUNT;
   }
 
-  public Comparator AgeComparator() {
-    
+  public static class AgeComparator implements Comparator<Person> {
+    public int compare(Person one, Person two) {
+      return one.age - two.age;
+    }
+  }
+
+  public int compareTo(Person other) {
+    return (int) (other.salary - this.salary);
+  }
+
+  public static ArrayList<Person> getNewardFamily() {
+    ArrayList<Person> family = new ArrayList<Person>();
+    family.add(new Person("Ted", 41, 250000));
+    family.add(new Person("Charlotte", 43, 150000));
+    family.add(new Person("Michael", 22, 10000));
+    family.add(new Person("Matthew", 15, 0));
+    return family; 
   }
 
   // PropertyChangeListener support; you shouldn't need to change any of
